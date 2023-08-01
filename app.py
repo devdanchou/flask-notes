@@ -16,3 +16,34 @@ connect_db(app)
 db.create_all()
 
 toolbar = DebugToolbarExtension(app)
+
+@app.get("/")
+def homepage():
+    """"Homepage; redirect to register """
+
+    form = CSRFProtectForm //TODO:
+
+    return redirect("/register", form=form)
+
+
+@app.route("/register", methodss = ["GET", "POST"])
+def register_user():
+    """Handle form submission of registering a user or produce form"""
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+
+
+
+
+
+
+
+
+
