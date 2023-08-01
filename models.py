@@ -17,7 +17,7 @@ class User(db.Model):
 
     password = db.Column(
         db.String(100),
-        nullabe = False)
+        nullable = False)
 
     email = db.Column(
         db.String(50),
@@ -41,9 +41,26 @@ class User(db.Model):
             username = username,
             password = hashed,
             email = email,
-            first_name,
-            last_name
+            first_name = first_name,
+            last_name = last_name,
         )
+
+        db.session.add(user)
+        return user
+
+    @classmethod
+    def authenticate(cls, username, password):
+        """ Validate that user exists & password is correct
+
+        Return user if valid; else return false
+        """
+        user = cls.query.filter_by(username=username).one_or_none()
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
+        else:
+            return False
+
 
 def connect_db(app):
     """Connect to database."""
